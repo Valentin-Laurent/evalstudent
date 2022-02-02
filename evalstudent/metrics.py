@@ -32,24 +32,24 @@ def get_scores(pred_df, gt_df):
 
     # Checking DataFrames emptiness before proceeding with calculations:
     nan_metrics_nb = 0
-    
+
     if pred_df.empty:
         precision = np.nan # Precision has no mathematical meaning in that case
         recall = 0
         nan_metrics_nb += 1
-    
+
     if gt_df.empty:
         precision = 0
         recall = np.nan # Recall has no mathematical meaning in that case
         nan_metrics_nb += 1
-    
+
     if nan_metrics_nb > 0:
         return {
             "precision" : precision,
             "recall" : recall,
             "f1" : np.nan if nan_metrics_nb == 2 else 0
         }
-    
+
     # If no DataFrame is empty, we proceed:
     gt_df = gt_df[["id", "discourse_type", "predictionstring"]].reset_index(drop=True).copy()
     pred_df = pred_df[["id", "class", "predictionstring"]].reset_index(drop=True).copy()
@@ -63,7 +63,7 @@ def get_scores(pred_df, gt_df):
         right_on=["id", "discourse_type"],
         how="outer",
         suffixes=("_pred", "_gt"),
-    )
+    ).fillna("")
 
     # Purposedly ignoring multiple match possibilty (very unlikely) for efficiency
     tp_df = joined[joined.apply(is_match, axis=1)]
@@ -71,7 +71,7 @@ def get_scores(pred_df, gt_df):
     TP = tp_df.shape[0]
     FP = pred_df.drop(tp_df["pred_id"]).shape[0]
     FN = gt_df.drop(tp_df["gt_id"]).shape[0]
-    
+
     # Returning metrics
     return {
         "precision" : TP / (TP + FP),
@@ -85,7 +85,7 @@ def kaggle_score(pred_df, gt_df, return_details=False):
     A function that scores for the kaggle Student Writing Competition
 
     Uses the steps in the evaluation page, with a simplified (= random)
-    calculation when 2 matches exist for the same discourse element. 
+    calculation when 2 matches exist for the same discourse element.
     See https://www.kaggle.com/c/feedback-prize-2021/overview/evaluation
     """
     scores = [
@@ -93,7 +93,7 @@ def kaggle_score(pred_df, gt_df, return_details=False):
             pred_df[pred_df["class"] == class_],
             gt_df[gt_df["discourse_type"] == class_]
         )
-        for class_ in CLASSES_LIST   
+        for class_ in CLASSES_LIST
     ]
     f1_score = np.nanmean([class_scores["f1"] for class_scores in scores])
     if return_details:
