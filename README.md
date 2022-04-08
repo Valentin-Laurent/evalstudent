@@ -20,6 +20,12 @@ We took advantage of the fact that we had models weight for each fold to cross-v
 Please note that this notebook will not work locally, as it needs access to the competition data and the models weight. However, you can make it run on Kaggle [here](https://www.kaggle.com/code/valentinlaurent2/two-longformers-inference/data)!
 
 
+## Exploratory Data Analysis 
+You can find most of our findings in the notebook arthur/findings
+
+## Modeling phase 
+Before using the models from the competition best notebooks we tried several approaches, especially stacking a LSTM head after a Longformer. Details of the model achitectures are in the notebooks arthur/training_v2 and v3
+
 # Set up
 To run our code locally, you can clone the project:
 ```bash
