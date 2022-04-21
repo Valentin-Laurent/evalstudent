@@ -34,6 +34,6 @@ We do not provide a requirement.txt file, so you may need to install new Python 
 Some notebooks are using functions defined in `utils.py`and `metrics.py`. For these to run properly, you can install the package (in development mode) with:
 
 ```bash
-cd evaluating-student-writing
+cd evalstudent
 pip install -e .
 ```
