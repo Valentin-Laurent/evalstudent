@@ -24,7 +24,7 @@ The author of the notebook made public the weights of these 10 trained models. W
 Please note that this notebook will not work locally, as it needs access to the competition data and the models weight. However, you can make it run on Kaggle [here](https://www.kaggle.com/code/valentinlaurent2/two-longformers-inference/data)!
 
 # Set up
-To run our code locally, you can clone the project:
+To run our code locally, you can clone this repository:
 ```bash
 git clone git@github.com:Valentin-Laurent/evalstudent.git
 ```
